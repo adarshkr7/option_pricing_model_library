@@ -21,9 +21,20 @@ void heston() {
     return;
 }
 
-void monteCarlo() {
-    // Implementation of Monte Carlo simulation goes here
-    return;
+void monteCarloMenu() {
+    double strikePrice, initialStockPrice, rate, volatility, time;
+    cout << "Enter Strike Price: ";
+    cin >> strikePrice;
+    cout << "Enter Initial Stock Price: ";
+    cin >> initialStockPrice;
+    cout << "Enter Risk-Free Rate: ";
+    cin >> rate;
+    cout << "Enter Volatility: ";
+    cin >> volatility;
+    cout << "Enter Time (in years): ";
+    cin >> time;
+    double price = monteCarlo(strikePrice, initialStockPrice, rate, volatility, time);
+    cout << "\nMonte Carlo Price: " << price << "\n";
 }
 
 void displayMenu() {
@@ -58,7 +69,7 @@ void choose() {
         case 4:
             cout << "\n--------------------------------------------------------";
             cout << "\nYou selected Monte Carlo Simulation.\n";
-            monteCarlo();
+            monteCarloMenu();
             break;
         default:
             cout << "\nInvalid choice. Please select a valid option (1 - 4): ";

@@ -3,8 +3,10 @@
 
 using namespace std;
 
-double monteCarlo(double strikePrice, double initialStockPrice, double rate, double volatility, double time, int simulations) {
+double monteCarlo(double strikePrice, double initialStockPrice, double rate, double volatility, double time) {
 
+    const int simulations = 100000;
+    
     random_device rd;
     mt19937 gen(rd());
     normal_distribution<> normal(0.0, 1.0);

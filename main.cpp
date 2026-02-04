@@ -33,7 +33,7 @@ void monteCarloMenu() {
     cin >> volatility;
     cout << "Enter Time (in years): ";
     cin >> time;
-    double price = monteCarlo(strikePrice, initialStockPrice, rate, volatility, time);
+    double price = MonteCarlo::calculateOptionPrice(strikePrice, initialStockPrice, rate, volatility, time);
     cout << "\nMonte Carlo Price: " << price << "\n";
 }
 

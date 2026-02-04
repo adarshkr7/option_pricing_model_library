@@ -154,17 +154,127 @@ This project implements all four models in C++:
 - **black_scholes.h/cpp**: Black-Scholes analytical solution
 - **monte_carlo.h/cpp**: Monte Carlo simulation
 - **heston.h/cpp**: Heston stochastic volatility model
-- **main.cpp**: Example usage and testing
-- **test.cpp**: Unit tests
+- **main.cpp**: Interactive menu-based interface for pricing options
+- **test.cpp**: Comprehensive test suite validating all pricing models
+
+---
+
+## Test Suite (test.cpp)
+
+The **test.cpp** file contains a comprehensive test program that validates all four pricing models with appropriate test parameters. It tests each model's functionality and verifies mathematical properties like put-call parity.
+
+### Test Cases
+
+#### 1. Black-Scholes Model Tests
+Tests both European call and put options with standard parameters:
+- **Stock Price (S)**: $100
+- **Strike Price (K)**: $100
+- **Risk-Free Rate (r)**: 5% (0.05)
+- **Volatility (σ)**: 20% (0.2)
+- **Time to Expiration (T)**: 1 year
+
+**Validates:**
+- Call option pricing
+- Put option pricing
+- Put-call parity relationship: $ C - P = S - Ke^{-rT} $
+
+#### 2. Binomial Model Tests
+Tests both European and American options with 100 binomial steps:
+- **Parameters**: Same as Black-Scholes test
+- **Number of Steps**: 100
+
+**Validates:**
+- European call option pricing
+- European put option pricing
+- American call option pricing
+- American put option pricing
+- **Important Property**: American option price ≥ European option price (early exercise benefit)
+
+#### 3. Monte Carlo Simulation Tests
+Uses 100,000 Monte Carlo simulations to estimate option prices:
+- **Parameters**: Same as Black-Scholes test
+- **Number of Simulations**: 100,000
+
+**Validates:**
+- Call option pricing via simulation
+- Put option pricing via simulation
+- Formula used: $S_T = S_0 \cdot e^{(r - 0.5\sigma^2)T + \sigma\sqrt{T}Z}$ where Z ~ N(0,1)
+
+#### 4. Heston Model Tests
+Tests the stochastic volatility model with realistic parameters:
+- **Stock Price (S)**: $100
+- **Strike Price (K)**: $100
+- **Risk-Free Rate (r)**: 5% (0.05)
+- **Initial Variance (v0)**: 0.04 (initial volatility = 20%)
+- **Mean Reversion Speed (κ)**: 2.0
+- **Long-term Variance (θ)**: 0.04
+- **Volatility of Volatility (σ)**: 0.3
+- **Price-Volatility Correlation (ρ)**: -0.5
+- **Time to Expiration (T)**: 1 year
+- **Number of Simulations**: 100,000
+- **Time Steps**: 252 (daily steps for 1 year)
+
+**Validates:**
+- Call option pricing with stochastic volatility
+- Put option pricing with stochastic volatility
+
+#### 5. Out-of-the-Money (OTM) Options Test
+Tests option valuation when intrinsic value is zero:
+- **Stock Price (S)**: $100
+- **Strike Price (K)**: $110 (for call option)
+- **Other parameters**: Same as Black-Scholes test
+
+**Validates:**
+- Time value of options
+- Intrinsic value: max(0, S - K)
+
+#### 6. In-the-Money (ITM) Options Test
+Tests option valuation when intrinsic value is positive:
+- **Stock Price (S)**: $120
+- **Strike Price (K)**: $100 (for call option)
+- **Other parameters**: Same as Black-Scholes test
+
+**Validates:**
+- Total option value = Intrinsic Value + Time Value
+- Positive intrinsic value calculation
+
+### Running the Tests
+
+Compile and run the test suite:
+```bash
+g++ -o qtest test.cpp header/binomial.cpp header/black_scholes.cpp header/monte_carlo.cpp header/heston.cpp -std=c++11
+./qtest
+```
+
+The test program will output detailed results for all six test cases, showing:
+- Input parameters for each model
+- Calculated option prices
+- Validation checks (e.g., put-call parity, American >= European property)
+- Intrinsic and time values
 
 ---
 
 ## Getting Started
 
-To build and run the project:
+### Running the Interactive Application (main.cpp)
+
+To build and run the interactive menu application:
 ```bash
-g++ -o qproject main.cpp header/binomial.cpp header/black_scholes.cpp header/monte_carlo.cpp header/heston.cpp
+g++ -o qproject main.cpp header/binomial.cpp header/black_scholes.cpp header/monte_carlo.cpp header/heston.cpp -std=c++11
 ./qproject
 ```
+
+This launches an interactive menu where you can select a pricing model and input parameters for option valuation.
+
+### Running the Test Suite (test.cpp)
+
+To build and run the comprehensive test suite:
+```bash
+g++ -o qtest test.cpp header/binomial.cpp header/black_scholes.cpp header/monte_carlo.cpp header/heston.cpp -std=c++11
+./qtest
+```
+
+This executes all test cases and displays detailed output for each pricing model, including validation checks.
+
 ![main.cpp](./src/main.png)
 ![monte_carlo.cpp](./src/monte_carlo.png)
